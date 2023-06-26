@@ -2,6 +2,9 @@ package org.clean.slate.view;
 
 import org.clean.slate.model.Person;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -11,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
@@ -29,8 +33,22 @@ public class SearchController {
     @FXML
     private TableView tableView;
 
-    ObservableList<Person> masterData = FXCollections.observableArrayList();
-    ObservableList<Person> results = FXCollections.observableList(masterData);
+    private ObservableList<Person> masterData = FXCollections.observableArrayList();
+    private ObservableList<Person> results = FXCollections.observableList(masterData);
+
+    public SearchController () {
+        Person alice = new Person();
+        alice.setId(new SimpleIntegerProperty(1));
+        alice.setName(new SimpleStringProperty("Alice"));
+        alice.setIsEmployed(new SimpleBooleanProperty(true));
+
+        Person bob = new Person();
+        bob.setId(new SimpleIntegerProperty(2));
+        bob.setName(new SimpleStringProperty("Bob"));
+        bob.setIsEmployed(new SimpleBooleanProperty(true));
+
+        masterData.add(alice);
+    }
 
     @FXML
     private void initialize() {
@@ -42,6 +60,12 @@ public class SearchController {
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
                 searchLabel.setText(newValue);
+            });
+
+        searchField.setOnKeyPressed(event -> {
+                if (event.getCode().equals(KeyCode.ENTER)) {
+                    loadData();
+                }
             });
 
         initTable();
@@ -64,6 +88,15 @@ public class SearchController {
                 }
 
             };
+
+        task.setOnSucceeded(event -> {
+                results = task.getValue();
+                tableView.setItems(FXCollections.observableList(results));
+            });
+
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
 
     private void initTable() {

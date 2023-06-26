@@ -11,6 +11,7 @@
     <name>slate</name>
 
     <modules>
+        <module>model</module>
         <module>frontend</module>
     </modules>
 

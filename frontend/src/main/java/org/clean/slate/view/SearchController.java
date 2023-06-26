@@ -28,7 +28,7 @@ public class SearchController {
     @FXML
     private VBox dataContainer;
     @FXML
-    private TableView tableView;
+    private TableView<Person> tableView;
 
     private ObservableList<Person> masterData = FXCollections.observableArrayList();
     private ObservableList<Person> results = FXCollections.observableList(masterData);
@@ -89,13 +89,13 @@ public class SearchController {
     private void initTable() {
         tableView = new TableView<>(FXCollections.observableList(masterData));
 
-        TableColumn id = new TableColumn("ID");
+        TableColumn<Person, Integer> id = new TableColumn<>("ID");
         id.setCellValueFactory(new PropertyValueFactory("id"));
 
-        TableColumn name = new TableColumn("NAME");
+        TableColumn<Person, String> name = new TableColumn<>("NAME");
         name.setCellValueFactory(new PropertyValueFactory("name"));
 
-        TableColumn employed = new TableColumn("EMPLOYED");
+        TableColumn<Person, Boolean> employed = new TableColumn<>("EMPLOYED");
         employed.setCellValueFactory(new PropertyValueFactory("isEmployed"));
 
         tableView.getColumns().addAll(id, name, employed);

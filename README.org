@@ -1,0 +1,5 @@
+* Clean Slate
+This is where I started learning to use JavaFx and Java Modules together.
+
+** Credit:
+[[https://www.baeldung.com/javafx][Baeldung's Introduction to JavaFx]]

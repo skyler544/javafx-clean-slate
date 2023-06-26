@@ -61,7 +61,7 @@ public class SearchController {
 
     private void loadData() {
         String searchText = searchField.getText();
-        Task<ObservableList<Person>> task = new Task<ObservableList<Person>>() {
+        Task<ObservableList<Person>> task = new Task<>() {
                 @Override
                 protected ObservableList<Person> call() throws Exception {
                     updateMessage("Loading data");

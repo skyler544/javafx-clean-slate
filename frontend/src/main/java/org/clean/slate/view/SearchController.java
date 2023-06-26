@@ -4,6 +4,7 @@ import org.clean.slate.model.Person;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+
+import java.util.stream.Collectors;
 
 public class SearchController {
 
@@ -32,7 +35,7 @@ public class SearchController {
     @FXML
     private void initialize() {
         searchButton.setText("Search");
-        // searchButton.setOnAction(event -> loadData());
+        searchButton.setOnAction(event -> loadData());
 
         // blue button, white text
         searchButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff");
@@ -42,6 +45,25 @@ public class SearchController {
             });
 
         initTable();
+    }
+
+    private void loadData() {
+        String searchText = searchField.getText();
+        Task<ObservableList<Person>> task = new Task<ObservableList<Person>>() {
+                @Override
+                protected ObservableList<Person> call() throws Exception {
+                    updateMessage("Loading data");
+                    return FXCollections
+                    .observableArrayList(masterData
+                                         .stream()
+                                         .filter(value -> value.getName()
+                                                 .toString()
+                                                 .toLowerCase()
+                                                 .contains(searchText))
+                                         .collect(Collectors.toList()));
+                }
+
+            };
     }
 
     private void initTable() {

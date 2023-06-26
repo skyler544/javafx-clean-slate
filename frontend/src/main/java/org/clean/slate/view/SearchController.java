@@ -37,17 +37,8 @@ public class SearchController {
     private ObservableList<Person> results = FXCollections.observableList(masterData);
 
     public SearchController () {
-        Person alice = new Person();
-        alice.setId(new SimpleIntegerProperty(1));
-        alice.setName(new SimpleStringProperty("Alice"));
-        alice.setIsEmployed(new SimpleBooleanProperty(true));
-
-        Person bob = new Person();
-        bob.setId(new SimpleIntegerProperty(2));
-        bob.setName(new SimpleStringProperty("Bob"));
-        bob.setIsEmployed(new SimpleBooleanProperty(true));
-
-        masterData.add(alice);
+        masterData.add(new Person(1, "Alice", true));
+        masterData.add(new Person(2, "Bob", false));
     }
 
     @FXML

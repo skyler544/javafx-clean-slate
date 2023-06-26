@@ -69,7 +69,6 @@ public class SearchController {
                     .observableArrayList(masterData
                                          .stream()
                                          .filter(value -> value.getName()
-                                                 .toString()
                                                  .toLowerCase()
                                                  .contains(searchText))
                                          .collect(Collectors.toList()));

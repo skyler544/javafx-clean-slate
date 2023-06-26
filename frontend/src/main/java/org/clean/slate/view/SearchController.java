@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class SearchController {
@@ -90,15 +91,18 @@ public class SearchController {
         tableView = new TableView<>(FXCollections.observableList(masterData));
 
         TableColumn<Person, Integer> id = new TableColumn<>("ID");
-        id.setCellValueFactory(new PropertyValueFactory("id"));
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         TableColumn<Person, String> name = new TableColumn<>("NAME");
-        name.setCellValueFactory(new PropertyValueFactory("name"));
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         TableColumn<Person, Boolean> employed = new TableColumn<>("EMPLOYED");
-        employed.setCellValueFactory(new PropertyValueFactory("isEmployed"));
+        employed.setCellValueFactory(new PropertyValueFactory<>("isEmployed"));
 
-        tableView.getColumns().addAll(id, name, employed);
+        // why is this necessary?
+        // https://stackoverflow.com/q/53258264
+        // https://stackoverflow.com/a/1445334
+        tableView.getColumns().addAll(List.of(id, name, employed));
         dataContainer.getChildren().add(tableView);
     }
 

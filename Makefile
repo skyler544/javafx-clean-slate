@@ -1,13 +1,10 @@
-all: compile
+all: clean-run
+
+clean-run: install
+	cd frontend && mvn javafx:run
 
 run:
 	cd frontend && mvn javafx:run
-
-clean-run: compile
-	cd frontend && mvn javafx:run
-
-compile: clean
-	mvn package
 
 install: clean
 	mvn install
